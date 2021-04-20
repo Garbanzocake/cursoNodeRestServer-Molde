@@ -7,15 +7,19 @@ const Usuario = require('../models/usuario');
 
 
 
-const usuariosGet = async(req = request, res = response) => {
- 
-    const { limite=5,desde= 0} = req.query;
-    const query = {estado :true};
-    
+const usuariosGet = async (req = request, res = response) => {
+
+    const {
+        limite = 5, desde = 0
+    } = req.query;
+    const query = {
+        estado: true
+    };
+
     // const usuarios = await Usuario.find(query).skip(Number(desde)).limit(Number(limite)); 
     // const total = await Usuario.countDocuments(query);
 
-    const [total,usuarios] = await  Promise.all([
+    const [total, usuarios] = await Promise.all([
         Usuario.countDocuments(query),
         Usuario.find(query).skip(Number(desde)).limit(Number(limite))
 
@@ -29,7 +33,7 @@ const usuariosGet = async(req = request, res = response) => {
 }
 
 
-const usuariosPut = async(req, res = response) => {
+const usuariosPut = async (req, res = response) => {
     const {
         id
     } = req.params;
@@ -41,7 +45,7 @@ const usuariosPut = async(req, res = response) => {
         ...resto
     } = req.body;
 
-    // TODO VALIDAR CONTRA BD
+
 
     if (password) {
 
@@ -51,7 +55,7 @@ const usuariosPut = async(req, res = response) => {
 
     }
 
-    const usuario = await Usuario.findByIdAndUpdate(id,resto);
+    const usuario = await Usuario.findByIdAndUpdate(id, resto);
 
     res.json({
         ok: true,
@@ -96,21 +100,23 @@ const usuariosPost = async (req, res = response) => {
 
 
 
-const usuariosDelete = async(req, res = response) => {
+const usuariosDelete = async (req, res = response) => {
 
 
-    const {id }= req.params;
+    const {
+        id
+    } = req.params;
 
     // Fisicamente lo borramos
     // const usuario= await Usuario.findByIdAndDelete( id );
 
     // Desactivar el usuario pero no borrarlo
-    const usuario = await Usuario.findByIdAndUpdate(id,{estado :false});
+    const usuario = await Usuario.findByIdAndUpdate(id, {
+        estado: false
+    });
 
 
-    res.json({
-        usuario
-    })
+    res.json(usuario)
 }
 
 const usuariosPatch = (req, res = response) => {

@@ -37,11 +37,16 @@ const UsuarioSchema = Schema({
 });
 
 // desestructurando para enviar solo las propiedades del usuario en un nuevo objeto y se retorna 
-UsuarioSchema.methods.toJSON = function() {
-    
-    const { __v,password,...usuario   }= this.toObject();
+UsuarioSchema.methods.toJSON = function () {
+
+    const {
+        __v,
+        password,
+        _id,
+        ...usuario
+    } = this.toObject();
+    usuario.uid = _id;
     return usuario;
 }
 
-module.exports = model( 'Usuario',UsuarioSchema );
-
+module.exports = model('Usuario', UsuarioSchema);
