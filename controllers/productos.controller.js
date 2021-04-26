@@ -1,3 +1,7 @@
+const path = require('path');
+const fs = require('fs');
+
+
 const {
     response
 } = require("express");
@@ -62,13 +66,19 @@ const crearProducto = async (req, res = response) => {
 
 
     // const nombre = req.body.nombre.toUpperCase();
-    const {estado,usuario,...body} = req.body;
+    const {
+        estado,
+        usuario,
+        ...body
+    } = req.body;
 
-    
+
     // const precioi = req.body.precio;
     // const precio = precioi * 1;
 
-const productoDB = await Producto.findOne({nombre: body.nombre });
+    const productoDB = await Producto.findOne({
+        nombre: body.nombre
+    });
 
     if (productoDB) {
         return res.status(400).json({
@@ -79,8 +89,8 @@ const productoDB = await Producto.findOne({nombre: body.nombre });
     // Generar la data a guardar
 
     const data = {
-        
-        nombre:body.nombre.toUpperCase(),
+
+        nombre: body.nombre.toUpperCase(),
         usuario: req.usuario._id,
         ...body,
     }
@@ -109,12 +119,12 @@ const actualizarProducto = async (req, res = response) => {
     } = req.body;
 
     if (data.nombre) {
-        
-            // capitalizando el nombre
-            data.nombre = data.nombre.toUpperCase();
-        
+
+        // capitalizando el nombre
+        data.nombre = data.nombre.toUpperCase();
+
     }
-    
+
     // asignando el usuario ultimo por el que hace la actualizacion
     data.usuario = req.usuario._id;
 
@@ -129,7 +139,7 @@ const actualizarProducto = async (req, res = response) => {
 
 
 
-// Borrar Categoria
+// Borrar Producto
 
 const borrarProducto = async (req, res = response) => {
 
@@ -159,10 +169,12 @@ const borrarProducto = async (req, res = response) => {
 
 
 
+
 module.exports = {
     crearProducto,
     obtenerProductos,
     obtenerProducto,
     actualizarProducto,
-    borrarProducto
+    borrarProducto,
+    
 }

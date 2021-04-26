@@ -11,7 +11,8 @@ const {
     obtenerProductos,
     actualizarProducto,
     borrarProducto,
-    obtenerProducto
+    obtenerProducto,
+    borrarImgProducto
 } = require('../controllers/productos.controller');
 
 const {
@@ -36,10 +37,10 @@ const router = Router();
 
 
 
-// Obtener todas las categorias - publico
+// Obtener todas los productos - publico
 router.get('/', obtenerProductos )
 
-// Obtener una categorias por id- publico
+// Obtener un producto por id- publico
 router.get('/:id', [
     check('id', 'No es un id valido').isMongoId(),
     check('id').custom(existeProductoPorId),
@@ -49,7 +50,7 @@ router.get('/:id', [
 
 
 
-// crear una categorias por id- privado- cualquier persona con token valido
+// crear un producto por id- privado- cualquier persona con token valido
 router.post('/',
     [
         validarJWT,
@@ -62,7 +63,7 @@ router.post('/',
 
 
 
-    // Actualizar categoria por id
+    // Actualizar producto por id
 router.put('/:id',
 [
     validarJWT,
@@ -75,7 +76,7 @@ actualizarProducto
 )
 
 
-// Borrar categoria por id - admin
+// Borrar producto por id - admin
 
 router.delete('/:id', [
 validarJWT,
@@ -84,6 +85,7 @@ check('id', 'No es un id valido').isMongoId(),
 validarCampos,
 check('id').custom(existeCategoriaPorId),
 ], borrarProducto)
+
 
 
 
