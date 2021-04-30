@@ -49,7 +49,7 @@ const obtenerProducto = async (req, res = response) => {
 
 
     // Desactivar el usuario pero no borrarlo
-    const categoria = await Producto.findById(id).populate('usuario', 'nombre').populate('categoria', 'nombre');
+    const producto = await Producto.findById(id).populate('usuario', 'nombre').populate('categoria', 'nombre');
 
 
 
