@@ -7,6 +7,7 @@ const {
 
 const {
     usuariosGet,
+    obtenerUsuario,
     usuariosPost,
     usuariosPut,
     usuariosPatch,
@@ -34,6 +35,14 @@ const router = Router();
 
 router.get('/', usuariosGet);
 
+// Obtener un producto por id- publico
+router.get('/:id', [
+    check('id', 'No es un id valido').isMongoId(),
+    check('id').custom(existeUsuarioPorId),
+    validarCampos
+], obtenerUsuario)
+
+
 router.put('/:id', [
     check('id', 'No es un id valido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
@@ -49,7 +58,7 @@ router.post('/', [
         min: 6
     }),
     // check('rol',' No es un rol valido').isIn(['ADMIN_ROLE','USER_ROLE']),
-    check('rol').custom(esRoleValido),
+    check('rol','El rol no esta registrado').custom(esRoleValido),
     validarCampos
 ], usuariosPost);
 

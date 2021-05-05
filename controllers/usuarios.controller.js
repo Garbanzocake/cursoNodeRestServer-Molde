@@ -4,7 +4,7 @@ const {
 } = require('express');
 const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
-
+const { generarJWT} = require('../helpers/generarJwt');
 
 
 const usuariosGet = async (req = request, res = response) => {
@@ -29,6 +29,23 @@ const usuariosGet = async (req = request, res = response) => {
     res.json({
         total,
         usuarios
+    })
+}
+
+const obtenerUsuario = async (req, res = response) => {
+
+
+    const {
+        id
+    } = req.params;
+
+    // Obtener el usuario
+    const usuario = await Usuario.findById(id);
+
+
+
+    res.json({
+        usuario
     })
 }
 
@@ -91,10 +108,14 @@ const usuariosPost = async (req, res = response) => {
     // guardar en base de datos
     await usuario.save();
 
+    // generar el JWT
+    const token = await generarJWT(usuario._id);
+
     res.json({
         ok: true,
         msg: 'post API - Controlador',
-        usuario
+        usuario,
+        token
     })
 }
 
@@ -132,4 +153,5 @@ module.exports = {
     usuariosPut,
     usuariosPatch,
     usuariosDelete,
+    obtenerUsuario
 }
