@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path=  require('path');
 const fileUpload= require('express-fileupload');
 const {
     dbConnection
@@ -36,7 +37,10 @@ class Server {
         // Rutas de mi aplicacion
         this.routes();
 
-
+        //Manejar demas rutas
+        this.app.get('*',(req,res)=>{
+            res.sendFile(path.resolve( __dirname ,'../public/index.html'))
+        })
         
 
     }
@@ -52,11 +56,8 @@ class Server {
         // CORS
         this.app.use(cors());
 
-
-
         // Directorio publico
         this.app.use(express.static('public'))
-
 
         // FileUpload - carga de archivos
 
