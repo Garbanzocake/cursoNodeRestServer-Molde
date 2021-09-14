@@ -64,8 +64,7 @@ const obtenerProducto = async (req, res = response) => {
 
 const crearProducto = async (req, res = response) => {
 
-
-    // const nombre = req.body.nombre.toUpperCase();
+    
     const {
         estado,
         usuario,
@@ -73,8 +72,7 @@ const crearProducto = async (req, res = response) => {
     } = req.body;
 
 
-    // const precioi = req.body.precio;
-    // const precio = precioi * 1;
+    
 
     const productoDB = await Producto.findOne({
         nombre: body.nombre

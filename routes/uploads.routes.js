@@ -8,7 +8,9 @@ const {
     cargarArchivo,
     // actualizarImagen,
     mostrarImagen,
-    actualizarImagenCloudinary
+    actualizarImagenCloudinary,
+    actualizarImagenesCloudinary,
+    limpiarImagenesCloudinary
 } = require('../controllers/uploads.controller');
 const {
     coleccionesPermitidas
@@ -34,6 +36,24 @@ router.put('/:coleccion/:id', [
     check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos'])),
     validarCampos
 ], actualizarImagenCloudinary);
+
+
+
+router.put('/:coleccion/:id/imgs', [
+    validarArchivoSubir,
+    check('id', 'El id debe ser un id de mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos'])),
+    validarCampos
+], actualizarImagenesCloudinary);
+
+router.delete('/:coleccion/:id/imgs', [
+    
+    check('id', 'El id debe ser un id de mongo').isMongoId(),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos'])),
+    validarCampos
+], limpiarImagenesCloudinary);
+
+
 // ], actualizarImagen);
 
 
