@@ -91,13 +91,16 @@ const usuariosPost = async (req, res = response) => {
         nombre,
         correo,
         password,
-        rol
+        rol,
+        telefono,
+
     } = req.body;
     const usuario = new Usuario({
         nombre,
         correo,
         password,
-        rol
+        rol,
+        telefono
     });
 
 

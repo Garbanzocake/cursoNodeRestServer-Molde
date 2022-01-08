@@ -20,7 +20,10 @@ class Server {
             categorias: '/api/categorias',
             productos: '/api/productos',
             usuarios: '/api/usuarios',
-            uploads: '/api/uploads'
+            uploads: '/api/uploads',
+            stickers:'/api/stickers',
+            pedidos:'/api/pedidos',
+            ventas:'/api/ventas',
         }
 
 
@@ -31,8 +34,7 @@ class Server {
         // MiddleWares
         this.middlewares();
 
-        // Lectura y parseo del body
-        this.app.use(express.json());
+        
 
         // Rutas de mi aplicacion
         this.routes();
@@ -59,6 +61,9 @@ class Server {
         // Directorio publico
         this.app.use(express.static('public'))
 
+        // Lectura y parseo del body
+        this.app.use(express.json());
+
         // FileUpload - carga de archivos
 
         // Note that this option available for versions 1.0.0 and newer. 
@@ -81,6 +86,10 @@ class Server {
         this.app.use(this.paths.productos, require('../routes/productos.routes'));
         this.app.use(this.paths.categorias, require('../routes/categorias.routes'));
         this.app.use(this.paths.uploads, require('../routes/uploads.routes'));
+        this.app.use(this.paths.stickers,require('../routes/sticker.routes'));
+        this.app.use(this.paths.pedidos,require('../routes/pedidos.routes'));
+        this.app.use(this.paths.ventas,require('../routes/ventas.routes.js'))
+        
 
 
     }

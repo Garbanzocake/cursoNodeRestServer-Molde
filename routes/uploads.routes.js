@@ -33,7 +33,7 @@ router.post('/', validarArchivoSubir, cargarArchivo);
 router.put('/:coleccion/:id', [
     validarArchivoSubir,
     check('id', 'El id debe ser un id de mongo').isMongoId(),
-    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos'])),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos','stickers'])),
     validarCampos
 ], actualizarImagenCloudinary);
 
@@ -42,14 +42,14 @@ router.put('/:coleccion/:id', [
 router.put('/:coleccion/:id/imgs', [
     validarArchivoSubir,
     check('id', 'El id debe ser un id de mongo').isMongoId(),
-    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos'])),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos','stickers'])),
     validarCampos
 ], actualizarImagenesCloudinary);
 
 router.delete('/:coleccion/:id/imgs', [
     
     check('id', 'El id debe ser un id de mongo').isMongoId(),
-    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos'])),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos','stickers'])),
     validarCampos
 ], limpiarImagenesCloudinary);
 
@@ -58,7 +58,7 @@ router.delete('/:coleccion/:id/imgs', [
 
 
 router.get('/:coleccion/:id', [check('id', 'El id debe ser un id de mongo').isMongoId(),
-    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos'])),
+    check('coleccion').custom(c => coleccionesPermitidas(c, ['usuarios', 'productos','stickers'])),
     validarCampos
 ], mostrarImagen)
 

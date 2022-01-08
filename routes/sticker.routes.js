@@ -1,57 +1,59 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
+
 const {
-  crearCategoria,
-  obtenerCategorias,
-  actualizarCategoria,
-  borrarCategoria,
-  obtenerCategoria,
-} = require("../controllers/categorias.controller");
-const { existeCategoriaPorId } = require("../helpers/db-validators");
+  crearSticker,
+  getStickers,
+  actualizarSticker,
+  borrarSticker,
+  obtenerSticker,
+} = require("../controllers/stickers.controller");
+
+const { existeStickerPorId } = require("../helpers/db-validators");
 const { validarJWT, esAdminRole } = require("../middlewares");
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
 
-// Obtener todas las categorias - publico
-router.get("/", obtenerCategorias);
+// Obtener todos los stickers - publico
+router.get("/", getStickers);
 
-// Obtener una categorias por id- publico
+// Obtener un sticker por id -publico
 router.get(
   "/:id",
   [
     check("id", "No es un id valido").isMongoId(),
-    check("id").custom(existeCategoriaPorId),
+    check("id").custom(existeStickerPorId),
     validarCampos,
   ],
-  obtenerCategoria
+  obtenerSticker
 );
 
-// crear una categorias por id- privado- cualquier persona con token valido
+// Crear un Sticker
 router.post(
   "/",
   [
     validarJWT,
     check("nombre", "El nombre es Obligatorio").not().isEmpty(),
+    check("artista", "El artista es Obligatorio").not().isEmpty(),
     validarCampos,
   ],
-  crearCategoria
+  crearSticker
 );
 
-// Actualizar categoria por id
+// Actualizar sticker por id
 router.put(
   "/:id",
   [
     validarJWT,
     check("nombre", "El nombre es Obligatorio").not().isEmpty(),
-    check("id").custom(existeCategoriaPorId),
+    check("id").custom(existeStickerPorId),
     validarCampos,
   ],
-  actualizarCategoria
+  actualizarSticker
 );
 
-// Borrar categoria por id - admin
-
+//borrar sticker por id-admin
 router.delete(
   "/:id",
   [
@@ -59,9 +61,9 @@ router.delete(
     esAdminRole,
     check("id", "No es un id valido").isMongoId(),
     validarCampos,
-    check("id").custom(existeCategoriaPorId),
+    check("id").custom(existeStickerPorId),
   ],
-  borrarCategoria
+  borrarSticker
 );
 
 module.exports = router;

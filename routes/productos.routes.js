@@ -12,7 +12,7 @@ const {
     actualizarProducto,
     borrarProducto,
     obtenerProducto,
-    borrarImgProducto
+    
 } = require('../controllers/productos.controller');
 
 const {

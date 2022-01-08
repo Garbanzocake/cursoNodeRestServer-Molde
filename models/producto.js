@@ -34,6 +34,7 @@ const ProductoSchema = Schema({
   },
   img: {
     type: String,
+    default: '',
   },
   imgs: {
     type: [String],
@@ -43,6 +44,14 @@ const ProductoSchema = Schema({
   },
   tallas: {
     type: [String],
+  },
+  genero:{
+    type: String,
+    default:''
+  },
+  unidades:{
+    type:Number,
+    default:0
   }
 });
 

@@ -7,7 +7,7 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 const { response } = require("express");
 const { subirArchivo } = require("../helpers");
 
-const { Usuario, Producto } = require("../models");
+const { Usuario, Producto, Sticker } = require("../models");
 
 const cargarArchivo = async (req, res = response) => {
   try {
@@ -114,14 +114,14 @@ const mostrarImagen = async (req, res = response) => {
   // Limpiar imágenes previas
   if (modelo.img) {
     // Hay que borrar la imagen del servidor
-    const pathImagen = path.join(
+    const pathImagenn = path.join(
       __dirname,
       "../uploads",
       coleccion,
       modelo.img
     );
-    if (fs.existsSync(pathImagen)) {
-      return res.sendFile(pathImagen);
+    if (fs.existsSync(pathImagenn)) {
+      return res.sendFile(pathImagenn);
     }
   }
 
@@ -150,6 +150,16 @@ const actualizarImagenCloudinary = async (req, res = response) => {
       if (!modelo) {
         return res.status(400).json({
           msg: `No existe un producto con el id ${id}`,
+        });
+      }
+
+      break;
+
+    case "stickers":
+      modelo = await Sticker.findById(id);
+      if (!modelo) {
+        return res.status(400).json({
+          msg: `No existe un sticker con el id ${id}`,
         });
       }
 
@@ -209,6 +219,16 @@ const actualizarImagenesCloudinary = async (req, res = response) => {
 
       break;
 
+    case "stickers":
+      modelo = await Sticker.findById(id);
+      if (!modelo) {
+        return res.status(400).json({
+          msg: `No existe un sticker con el id ${id}`,
+        });
+      }
+
+      break;
+
     default:
       return res.status(500).json({
         msg: "Se me olvidó validar esto",
@@ -219,12 +239,10 @@ const actualizarImagenesCloudinary = async (req, res = response) => {
 
   const { tempFilePath } = req.files.archivo;
 
-
   const { secure_url } = await cloudinary.uploader.upload(tempFilePath, {
     folder: "TiendaApp",
   });
- 
-    
+
   // cloudinary.image("lady.jpg", {transformation: [
   //   {gravity: "face", height: 400, width: 400, crop: "crop"},
   //   {radius: "max"},
@@ -264,6 +282,17 @@ const limpiarImagenesCloudinary = async (req, res = response) => {
 
       break;
 
+      
+    case "stickers":
+      modelo = await Sticker.findById(id);
+      if (!modelo) {
+        return res.status(400).json({
+          msg: `No existe un producto con el id ${id}`,
+        });
+      }
+
+      break;
+
     default:
       return res.status(500).json({
         msg: "Se me olvidó validar esto",
@@ -281,6 +310,8 @@ const limpiarImagenesCloudinary = async (req, res = response) => {
     const [public_id] = nombre.split(".");
     cloudinary.uploader.destroy(`TiendaApp/${public_id}`);
   }
+
+ 
 
   modelo.imgs = [];
 
